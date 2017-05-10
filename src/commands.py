@@ -21,7 +21,7 @@ from datetime import datetime
 # ---------------------------
 #For any major revisions please update the middle number and set the 3rd to 0.
 #For minor revisions and changes to personal vars (obey commands) please increment the third number (up to 99).
-version_number = 'v1.1.5'
+version_number = 'v1.2.0'
 git_repo = 'https://github.com/alexgerst/yawgmoth'
 last_card = None
 yawg_admin_roles = []
@@ -67,8 +67,11 @@ def setup_mods(server):
 def cmd_fetch(message):
     global last_card
     response = ''
-    pattern = re.compile("<<([^<>]*)>>")
-    queries = pattern.findall(message.content)
+    angle_brackets_pattern = re.compile("<<([^<>]*)>>")
+    brackets_pattern = re.compile("\[\[([^\[\]]*)\]\]")
+
+    queries = angle_brackets_pattern.findall(message.content)
+    queries += brackets_pattern.findall(message.content)
 
     for s in queries:
         query = s
